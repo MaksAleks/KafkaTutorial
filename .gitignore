@@ -1,0 +1,15 @@
+.idea/
+.gradle/
+*.iml
+
+.settings/
+.project
+.classpath
+.factorypath
+
+target/
+out/
+
+logs/
+
+kafka-compose-setup/volumes
