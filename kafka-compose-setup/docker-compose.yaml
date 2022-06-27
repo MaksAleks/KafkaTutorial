@@ -2,8 +2,7 @@ version: "3.7"
 
 services:
   zookeeper:
-    ports:
-      - "2181:2181"
+    network_mode: host
     image: confluentinc/cp-zookeeper:5.4.4
     environment:
       ZOOKEEPER_DATA_DIR: /var/lib/zookeeper
@@ -12,22 +11,33 @@ services:
     volumes:
       - zookeeper-data:/var/lib/zookeeper
 
-  kafka:
-    image: confluentinc/cp-kafka:5.4.4
+  kafka-1:
+    image: confluentinc/cp-kafka:latest
+    network_mode: host
     depends_on:
       - zookeeper
-    ports:
-      - 9092:9092
     environment:
       KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka:9094,OUTSIDE://localhost:9092
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,OUTSIDE:PLAINTEXT
-      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_ZOOKEEPER_CONNECT: localhost:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:19092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 2
       KAFKA_LOG_DIRS: /tmp/kafka-logs/
     volumes:
-      - ./volumes/kafka:/tmp/kafka-logs
+      - kafka-data-1
+
+  kafka-2:
+    image: confluentinc/cp-kafka:latest
+    network_mode: host
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 2
+      KAFKA_ZOOKEEPER_CONNECT: localhost:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:29092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 2
+      KAFKA_LOG_DIRS: /tmp/kafka-logs/
+    volumes:
+      - kafka-data-2
 
   kadeck-db:
     ports:
@@ -58,4 +68,5 @@ services:
 volumes:
   kadeck-data:
   zookeeper-data:
-  kafka-data:
+  kafka-data-1:
+  kafka-data-2:

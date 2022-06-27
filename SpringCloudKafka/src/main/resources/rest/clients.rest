@@ -1,0 +1,6 @@
+POST http://localhost:8080/clients/new
+Content-Type: application/json
+
+{
+  "name": "m.alekseev"
+}
