@@ -26,6 +26,8 @@ services:
       KAFKA_NUM_PARTITIONS: 2
       KAKFA_MIN_INSYNC_REPLICAS: 2
       KAFKA_LOG_DIRS: /tmp/kafka-logs/
+      KAFKA_JMX_OPTS: "-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=kafka -Dcom.sun.management.jmxremote.rmi.port=1099"
+      JMX_PORT: 1099
     volumes:
       - kafka-data-1
 
@@ -43,6 +45,8 @@ services:
       KAFKA_NUM_PARTITIONS: 2
       KAKFA_MIN_INSYNC_REPLICAS: 2
       KAFKA_LOG_DIRS: /tmp/kafka-logs/
+      KAFKA_JMX_OPTS: "-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=kafka -Dcom.sun.management.jmxremote.rmi.port=2099"
+      JMX_PORT: 2099
     volumes:
       - kafka-data-2
 
@@ -60,6 +64,8 @@ services:
       KAFKA_NUM_PARTITIONS: 2
       KAKFA_MIN_INSYNC_REPLICAS: 2
       KAFKA_LOG_DIRS: /tmp/kafka-logs/
+      KAFKA_JMX_OPTS: "-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=kafka -Dcom.sun.management.jmxremote.rmi.port=3099"
+      JMX_PORT: 3099
     volumes:
       - kafka-data-3
 
@@ -74,6 +80,8 @@ services:
       - kafka-2
     environment:
       ZK_HOSTS: zookeeper:2181
+    volumes:
+      - cmak:/cmak
 
   kadeck-db:
     ports:
@@ -107,3 +115,4 @@ volumes:
   kafka-data-1:
   kafka-data-2:
   kafka-data-3:
+  cmak:
