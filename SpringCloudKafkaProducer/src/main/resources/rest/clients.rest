@@ -1,0 +1,6 @@
+POST http://localhost:9090/send/test-1
+Content-Type: text/plain
+
+message
+
+###
