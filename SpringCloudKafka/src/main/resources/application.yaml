@@ -1,0 +1,14 @@
+spring:
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: http://localhost:19092
+#          brokers: mr-ofd-bkafka01.ev.local:9092,mr-ofd-bkafka02.ev.local:9092
+          min-partition-count: 3
+      bindings:
+        test:
+          destination: test
+          group: test
+          consumer:
+            concurrency: 6
