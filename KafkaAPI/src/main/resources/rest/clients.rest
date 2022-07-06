@@ -1,6 +1,6 @@
-POST http://localhost:8080/kafka/input/test-topic
+POST http://localhost:9090/kafka/input/test-1
 Content-Type: application/json
 
 {
-  "name": "m.alekseev"
+  "body": "hello"
 }

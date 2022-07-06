@@ -1,7 +1,7 @@
 package ru.max.kafka;
 
-import lombok.RequiredArgsConstructor;
-import lombok.Value;
+import lombok.*;
+import lombok.extern.jackson.Jacksonized;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.springframework.http.HttpStatus;
@@ -20,7 +20,7 @@ public class InputMessagesController {
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void message(Message msg, @PathVariable("destination") String destination) {
+    public void message(@RequestBody Message msg, @PathVariable("destination") String destination) {
         ProducerRecord<String, Message> record = new ProducerRecord<>(destination, msg);
         kafkaProducer.send(record, (metadata, exception) -> {
             if (exception != null) {
@@ -30,6 +30,8 @@ public class InputMessagesController {
     }
 
     @Value
+    @Builder
+    @Jacksonized
     public static class Message {
         String body;
     }
