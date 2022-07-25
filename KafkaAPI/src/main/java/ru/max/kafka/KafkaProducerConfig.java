@@ -13,12 +13,12 @@ public class KafkaProducerConfig {
 
     @Bean
     @ConfigurationProperties("kafka.producer")
-    public Properties kafkaProps() {
+    public Properties producerProps() {
         return new Properties();
     }
 
     @Bean
-    public KafkaProducer<String, Message> kafkaProducer(Properties kafkaProps) {
-        return new KafkaProducer<>(kafkaProps);
+    public KafkaProducer<String, Message> kafkaProducer(Properties producerProps) {
+        return new KafkaProducer<>(producerProps);
     }
 }
