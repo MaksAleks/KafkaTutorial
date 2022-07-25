@@ -26,10 +26,28 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INNER:PLAINTEXT,OUTER:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: INNER
       KAFKA_LOG_DIRS: /tmp/kafka-logs/
-      KAFKA_JMX_OPTS: "-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=kafka -Dcom.sun.management.jmxremote.rmi.port=1099"
+      KAFKA_JMX_OPTS: "-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=kafka-1 -Dcom.sun.management.jmxremote.rmi.port=1099"
       JMX_PORT: 1099
     volumes:
       - kafka-data-1
+  kafka-2:
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - zookeeper
+    ports:
+      - "29092:29092"
+    environment:
+      KAFKA_BROKER_ID: 2
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: INNER://kafka-2:9092,OUTER://localhost:29092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INNER:PLAINTEXT,OUTER:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: INNER
+      KAFKA_LOG_DIRS: /tmp/kafka-logs/
+      KAFKA_JMX_OPTS: "-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=kafka-2 -Dcom.sun.management.jmxremote.rmi.port=1099"
+      JMX_PORT: 1099
+    volumes:
+      - kafka-data-2
 
   cmak:
     image: ghcr.io/eshepelyuk/dckr/cmak-3.0.0.5:latest
