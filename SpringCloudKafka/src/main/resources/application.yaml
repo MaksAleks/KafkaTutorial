@@ -4,11 +4,16 @@ spring:
       kafka:
         binder:
           brokers: http://localhost:19092
-#          brokers: mr-ofd-bkafka01.ev.local:9092,mr-ofd-bkafka02.ev.local:9092
-          min-partition-count: 3
+          #          brokers: mr-ofd-bkafka01.ev.local:9092,mr-ofd-bkafka02.ev.local:9092
+          auto-create-topics: false
+        bindings:
+          test:
+            consumer:
+              enable-dlq: true
       bindings:
         test:
-          destination: test
+          destination: test-1,test-2
           group: test
-          consumer:
-            concurrency: 6
+        test-error:
+          destination: test-1-dlq,test-2-dlq
+          group: test

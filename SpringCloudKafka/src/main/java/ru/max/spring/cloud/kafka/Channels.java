@@ -7,6 +7,11 @@ public interface Channels {
 
     String TEST = "test";
 
+    String TEST_ERROR = "test-error";
+
     @Input(TEST)
     MessageChannel testChannel();
+
+    @Input(TEST_ERROR)
+    MessageChannel testErrorChannel();
 }
